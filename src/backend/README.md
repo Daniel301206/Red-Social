@@ -16,7 +16,7 @@ API REST desarrollada con Node.js, Express y PostgreSQL (Prisma ORM).
 
 ```bash
 
-git clone https://github.com/andremezabarriga314/Pagina_Videojuegos.git
+git clone https://github.com/Daniel301206/Red-Social.git
 
 cd backend
 
