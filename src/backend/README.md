@@ -4,7 +4,7 @@ API REST desarrollada con Node.js, Express y PostgreSQL (Prisma ORM).
 
 ## Requisitos Previos
 
-- Node.js v20 o superior
+- Node.js v22 o v20
 - npm o yarn
 - Cuenta en Neon (PostgreSQL gratuito)
 
@@ -12,8 +12,8 @@ API REST desarrollada con Node.js, Express y PostgreSQL (Prisma ORM).
 
 1. Clonar el repositorio:
 ```bash
-git clone <url-del-repositorio>
-cd mi-api-backend
+git clone https://github.com/Meowwuw/PIAD-301.git
+cd backend
 ```
 
 2. Instalar dependencias:
@@ -54,4 +54,4 @@ npm run dev
 
 ## Autor
 
-Proyecto educativo - Ingeniería de Software
+Proyecto educativo - Ingeniería de Software - Magenta 🌟🐱✨
