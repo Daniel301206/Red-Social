@@ -3,48 +3,71 @@ import { userController } from '../controllers/userController.js';
 
 const router = express.Router();
 
+
 /**
  * @swagger
- * tags:
- *   name: Users
- *   description: API endpoints for managing users
+ * components:
+ *  schemas:
+ *    User:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: integer
+ *          example: 1
+ *        email:
+ *          type: string
+ *          example: danielberrospi@gmail.com
+ *        name:
+ *          type: string
+ *          example: Daniel Berrospi
  */
 
 /**
  * @swagger
  * /api/users:
- *   get:['Users']
- *    summary: Retrieve a list of users
- *   tags: [Users]
- *  responses:
- *    200:
- *     description: A list of users.
- *    content:
- *     application/json:
- *     schema:
- *      type: array
- *     items:
- *     $ref: '#/components/schemas/User'
+ *  get:
+ *    summary: Obtener todos los usuarios
+ *    tags: [Users]
+ *    responses:
+ *      200:
+ *        description: OK
  */
+router.get('/',userController.getUsers);//Rutas para llamar al usuario
 
 /**
  * @swagger
- * /users:
- *   post:
- *     summary: Create a new user
- *   tags: [Users]
- *  responses:
- *    201:
- *     description: The created user.
- *    content:
- *     application/json:
- *     schema:
- *      $ref: '#/components/schemas/User'
+ * /api/users:
+ *  post:
+ *    summary: Crear nuevo usuario
+ *    tags: [Users]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              email:
+ *                type: string
+ *                example: daniel123riberr@gmail.com
+ *              name:
+ *                type: string
+ *                example: Daniel Junior
+ *    responses:
+ *      201:
+ *        description: Usuario creado correctamente
+ *        content:
+ *          application/json:
+ *            $ref: '#/components/schemas/User'
+ *      400:
+ *        description: Datos invalidos
+ *      500:
+ *        description: Error del servidor
  */
-//Rutas para llamar al usuario
-router.get('/',userController.getUsers);
-router.post('/',userController.createUser);
-router.put('/:id', userController.updateUser);
 
+router.post('/',userController.createUser);//Rutas para llamar al usuario
+
+
+router.put('/:id', userController.updateUser);//Rutas para llamar al usuario
 
 export default router;
