@@ -58,5 +58,19 @@ export const userController = {
         message: error.message
       });
     }
-  }
+  },
+
+  async deleteUser(req, res) {
+    try {
+      const { id } = req.params;
+      
+      await userService.deleteUser(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: error.message
+      });
+    }
+  },
 }
