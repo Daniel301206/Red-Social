@@ -72,5 +72,5 @@ export const userController = {
         message: error.message
       });
     }
-  },
+  }
 }
