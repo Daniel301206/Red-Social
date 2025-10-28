@@ -28,6 +28,7 @@ app.get('/',(req, res) => {
 app.use('/api/users',userRoutes);
 app.use('/api/email', emailRoutes);
 
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo y escuchando en el puerto ${PORT}`);
 });
