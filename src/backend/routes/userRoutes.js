@@ -1,5 +1,5 @@
 import express from 'express';
-import { userController } from '../controllers/userControllers.js';
+import { userControllers } from '../controllers/userControllers.js';
 
 const router = express.Router();
 
@@ -32,7 +32,7 @@ const router = express.Router();
  *      200:
  *        description: OK
  */
-router.get('/',userController.getUsers);//Rutas para llamar al usuario
+router.get('/',userControllers.getUsers);//Rutas para llamar al usuario
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.get('/',userController.getUsers);//Rutas para llamar al usuario
  *        description: Error del servidor
  */
 
-router.post('/',userController.createUser);//Rutas para llamar al usuario
+router.post('/',userControllers.createUser);//Rutas para llamar al usuario
 
 
 /**
@@ -104,7 +104,7 @@ router.post('/',userController.createUser);//Rutas para llamar al usuario
  *         description: Usuario no encontrado
  */
 
-router.put('/:id',userController.updateUser);//Rutas para llamar al usuario
+router.put('/:id',userControllers.updateUser);//Rutas para llamar al usuario
 
 /**
  * @swagger
@@ -126,6 +126,6 @@ router.put('/:id',userController.updateUser);//Rutas para llamar al usuario
  *        description: Usuario no encontrado
  */
 
-router.delete('/:id',userController.deleteUser);//Rutas para llamar al usuario
+router.delete('/:id',userControllers.deleteUser);//Rutas para llamar al usuario
 
 export default router;

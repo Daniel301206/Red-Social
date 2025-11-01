@@ -1,7 +1,7 @@
 import express from "express";
 import { authControllers } from "../controllers/authControllers.js";
 
-const router=express.Router();
+const router= express.Router();
 
 /**
  * @swagger
@@ -15,7 +15,7 @@ const router=express.Router();
 
 
 /**
- * @swagger 
+ * @swagger
  * /api/auth/register:
  *  post:
  *    summary: Registrar nuevo usuario
@@ -29,13 +29,13 @@ const router=express.Router();
  *            properties:
  *              email:
  *                type: string
- *                example: carlos@gmail.com
+ *                example: margarita@gmail.com
  *              name:
  *                type: string
- *                example: Carlos
+ *                example: Margarita
  *              password:
  *                type: string
- *                example: Carlos123
+ *                example: patito123
  *    responses:
  *      201:
  *        description: Usuario registrado exitosamente
@@ -44,6 +44,6 @@ const router=express.Router();
  *      500:
  *        description: Error interno del servidor
  */
-router.post("/register",authControllers.register);
+router.post("/register", authControllers.register);
 
 export default router;

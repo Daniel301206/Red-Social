@@ -18,3 +18,4 @@ model User {
   avatar String?  //obtener la foto de perfil
 }
 
+
