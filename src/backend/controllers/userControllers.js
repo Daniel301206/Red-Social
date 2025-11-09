@@ -7,12 +7,12 @@ export const userControllers = {
             res.status(200).json({
                 succes: true,
                 data:users
-            })
+            });
         }catch(error){
             res.status(500).json({
                 succes: false,
                 message: error.message
-            })
+            });
         }
     },
 
@@ -36,7 +36,7 @@ export const userControllers = {
             res.status(500).json({
                 sucess:false,
                 message:error.message
-            })
+            });
         }
     },
 
