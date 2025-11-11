@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import image from '../assets/image.png';
+import usuario from '../assets/usuario.png';
 import mensaje from '../assets/mensaje.png';
 import clave from "../assets/clave.png"
 
@@ -42,7 +42,7 @@ function Login() {
     <div className="flex items-center bg-gray justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-x-6 bg-white rounded-xl shadow-md">
         <div className="flex justify-center items-center w-auto h-auto  m-15 p-5 ">
-            <img src={image} className="w-40 h-40"/>
+            <img src={usuario} className="w-40 h-40"/>
         </div>
         <h1 className="text-4xl font-bold Italic text-center">Iniciar Sesion</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
