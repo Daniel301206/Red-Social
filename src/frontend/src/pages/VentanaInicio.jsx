@@ -1,24 +1,18 @@
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+import lupa from "../assets/lupa.png";
+import logoEmpresa from "../assets/logoEmpresa.png";
+import chat from "../assets/chat.png";
 import Home from "../assets/Home.png";
 import Video from "../assets/Video.png";
 import Solicitudes from "../assets/Solicitudes.png";
 import Notificaciones from "../assets/Notificaciones.png";
 import Grupos from "../assets/Grupos.png";
 
-const Ventana01=()=>{
-    const navigate = useNavigate(); 
 
-    useEffect(()=>{
-        const redirectTimer=setTimeout(()=>{
-            navigate('/ventana01');
-        })
-        return()=>{
-            clearTimeout(redirectTimer);
-        };
-    },
-[navigate])
+const VentanaInicio=()=>{
 
   return (
     <header className="w-full sticky top-0 bg-gray-900 text-gray-200 shadow-lg z-20">
@@ -47,7 +41,7 @@ const Ventana01=()=>{
         {/* Imagen/Avatar derecho */}
         <div>
           <img
-            src={img}
+            src={chat}
             alt="Usuario"
             className="w-10 h-10 rounded-full object-cover"
           />
@@ -83,5 +77,5 @@ const Ventana01=()=>{
       </nav>
     </header>
   );
-}
-export default Ventana01;
+};
+export default VentanaInicio;
