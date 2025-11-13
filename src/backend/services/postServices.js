@@ -1,0 +1,119 @@
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+// ===================================================================
+// 🧩 Crear una publicación (CORREGIDO)
+// ===================================================================
+export const createPost = async (data) => {
+  try {
+    // 💡 CORRECCIÓN: Se cambió 'imageUrl' por 'image' para coincidir con el esquema de Prisma
+    const { title, content, authorId, image } = data; 
+
+    // Validar campos obligatorios
+    if (!title || !content || !authorId) {
+      throw new Error("Faltan campos obligatorios: title, content o authorId");
+    }
+
+    // Crear publicación
+    const newPost = await prisma.post.create({
+      data: {
+        title,
+        content,
+        image, // <-- USAMOS 'image' AHORA
+        author: {
+          connect: { id: Number(authorId) }, // conecta con el usuario
+        },
+      },
+    });
+
+    return newPost;
+  } catch (error) {
+    throw new Error("Error al crear la publicación: " + error.message);
+  }
+};
+
+// ===================================================================
+// 🧱 Obtener todas las publicaciones
+// ===================================================================
+export const getAllPosts = async () => {
+  try {
+    const posts = await prisma.post.findMany({
+      include: {
+        author: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+      orderBy: { createdAt: "desc" }, // los más recientes primero
+    });
+    return posts;
+  } catch (error) {
+    throw new Error("Error al obtener las publicaciones: " + error.message);
+  }
+};
+
+// ===================================================================
+// 🔍 Obtener una publicación por su ID
+// ===================================================================
+export const getPostById = async (id) => {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: Number(id) },
+      include: {
+        author: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+    });
+
+    if (!post) throw new Error("Publicación no encontrada");
+    return post;
+  } catch (error) {
+    throw new Error("Error al obtener la publicación: " + error.message);
+  }
+};
+
+// ===================================================================
+// ✍️ Actualizar una publicación por ID
+// ===================================================================
+export const updatePost = async (id, updateData) => {
+  try {
+    if (Object.keys(updateData).length === 0) {
+      throw new Error("No se proporcionaron datos para actualizar");
+    }
+
+    const updatedPost = await prisma.post.update({
+      where: { id: Number(id) },
+      data: updateData,
+      include: {
+        author: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+    });
+
+    return updatedPost;
+  } catch (error) {
+    if (error.code === "P2025") {
+      throw new Error("Publicación no encontrada o no se pudo actualizar.");
+    }
+    throw new Error("Error al actualizar la publicación: " + error.message);
+  }
+};
+
+// ===================================================================
+// 🗑️ Eliminar una publicación por ID
+// ===================================================================
+export const deletePost = async (id) => {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!post) throw new Error("Publicación no encontrada");
+
+    await prisma.post.delete({ where: { id: Number(id) } });
+    return { message: "Publicación eliminada con éxito" };
+  } catch (error) {
+    throw new Error("Error al eliminar la publicación: " + error.message);
+  }
+};

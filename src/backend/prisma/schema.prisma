@@ -1,5 +1,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// ===========================================================
+// GENERADOR Y FUENTE DE DATOS
+// ===========================================================
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,13 +12,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ===========================================================
+// MODELO DE USUARIO
+// ===========================================================
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  name String 
-  password String? //Metodo tradicional
-  googleId String? @unique //Metodo login con google
-  avatar String?  //obtener la foto de perfil
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  password  String?  // Método tradicional
+  googleId  String?  @unique // Método login con Google
+  avatar    String?  // Foto de perfil
+
+  // Relación con publicaciones
+  posts     Post[]
 }
 
+// ===========================================================
+// MODELO DE PUBLICACIÓN
+// ===========================================================
+model Post {
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String
+  image       String?    // imagen opcional
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
+  // Relación con el usuario
+  author      User       @relation(fields: [authorId], references: [id])
+  authorId    Int
+}
