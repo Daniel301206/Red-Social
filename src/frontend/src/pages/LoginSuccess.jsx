@@ -43,7 +43,7 @@ function LoginSuccess() {
     }, 1500); 
 
     const redirectTimer = setTimeout(() => {
-        navigate('/ventana01'); 
+        navigate('/ventanaInicio'); 
     }, 4500);
 
     return () => {

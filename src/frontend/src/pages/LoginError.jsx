@@ -5,7 +5,7 @@ function LoginError() {
     <div>
       <h1>Error de Autenticación</h1>
       <p>Hubo un problema al intentar iniciar sesión con Google. Por favor, inténtalo de nuevo.</p>
-      <Link to="/Ventana01">sistema Principal</Link>
+      <Link to="/VentanaInicio">sistema Principal</Link>
     </div>
   );
 }
