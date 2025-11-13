@@ -3,7 +3,7 @@ import Layout from "./Layout";
 const VentanaInicio = () => {
   return (
     <Layout>
-      <div className="bg-gray-800 p-6 rounded-xl shadow-md border border-gray-700 text-center">
+      <div className="bg-gray-0 p-6 rounded-xl  text-center">
         <h2 className="text-yellow-400 text-xl font-bold mb-2">
           🏡 Bienvenido a Chatter
         </h2>
@@ -19,5 +19,3 @@ const VentanaInicio = () => {
 };
 
 export default VentanaInicio;
-
-
