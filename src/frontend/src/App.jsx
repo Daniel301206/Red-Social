@@ -9,7 +9,7 @@ import Video from "./pages/Video";
 import Solicitudes from "./pages/Solicitudes";
 import Notificaciones from "./pages/Notificaciones";
 import Grupos from "./pages/Grupos";
-import Chats from  "./pages/Chats";
+import Chats from "./pages/chats";
 
 
 function App(){
