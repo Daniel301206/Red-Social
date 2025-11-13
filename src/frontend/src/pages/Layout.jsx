@@ -37,13 +37,12 @@ const Layout = ({ children }) => {
           </div>
 
           {/* Imagen/Avatar derecho */}
-          <div>
-            <img
-              src={chat}
-              alt="Usuario"
-              className="w-10 h-10 rounded-full object-cover"
-            />
-          </div>
+
+          <button
+            onClick={() => navigate("/chats")}
+            className="flex flex-col items-center hover:text-yellow-500 transition">
+            <img src={chat} alt="Usuario"className="w-10 h-10 rounded-full object-cover"/>
+          </button>
         </div>
 
         {/* FILA INFERIOR: Barra de navegación con íconos */}

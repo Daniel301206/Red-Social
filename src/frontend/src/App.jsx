@@ -9,6 +9,7 @@ import Video from "./pages/Video";
 import Solicitudes from "./pages/Solicitudes";
 import Notificaciones from "./pages/Notificaciones";
 import Grupos from "./pages/Grupos";
+import Chats from  "./pages/Chats";
 
 
 function App(){
@@ -25,6 +26,8 @@ function App(){
         <Route path="/solicitudes" element={<Solicitudes />} />
         <Route path="/notificaciones" element={<Notificaciones />} />
         <Route path="/grupos" element={<Grupos />} />
+        <Route path="/chats" element={<Chats />} />   
+
 
       </Routes>
     </BrowserRouter>
