@@ -1,21 +1,49 @@
 import * as postServices from "../services/postServices.js";
+import path from 'path'; // Necesitas importar 'path'
 
 /**
  * 🧩 Crear una nueva publicación
  */
 export const createPostController = async (req, res) => {
   try {
-    const newPost = await postServices.createPost(req.body);
-    res.status(201).json({
-      message: "Publicación creada con éxito 🎉",
-      post: newPost
-    });
+    const { content, authorId } = req.body;
+        let imageUrl = null;
+        if (req.file) {
+            imageUrl = req.file.path; 
+        }
+        const postData = {
+            content,
+            authorId: parseInt(authorId, 10), // Asume que el ID es un número
+            imageUrl: imageUrl // El servicio se encargará de guardarlo
+        };
+
+        // 💡 3. Llamar al servicio con los datos (incluida la ruta local de la imagen)
+        const newPost = await postServices.createPost(postData);
+
+        // 💡 4. Formatear la respuesta para el Frontend (devolver la URL COMPLETA)
+        const fullImageUrl = imageUrl ? `http://localhost:3000/${imageUrl}` : null;
+        
+        res.status(201).json({
+            message: "Publicación creada con éxito 🎉",
+            post: { 
+                ...newPost, 
+                imageUrl: fullImageUrl 
+            }
+        });
   } catch (error) {
-    // Si el error viene del servicio (ej. "Faltan campos obligatorios"), usamos 400
-    res.status(400).json({
-      message: "Error al crear la publicación",
-      error: error.message
-    });
+    console.error("Error en createPostController:", error);
+        
+        // 💡 Opcional: Si falla, podrías querer borrar el archivo si ya se subió
+        if (req.file) {
+             // Lógica para borrar el archivo (requiere la librería 'fs')
+             // const fs = require('fs/promises');
+             // await fs.unlink(req.file.path); 
+        }
+        
+        res.status(400).json({
+            message: "Error al crear la publicación",
+            error: error.message
+        });
   }
 };
 

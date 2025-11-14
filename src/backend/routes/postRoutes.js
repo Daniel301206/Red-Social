@@ -6,6 +6,9 @@ import {
   deletePostController,
   updatePostController
 } from "../controllers/postControllers.js";
+import { uploadImage } from "../middlewares/uploadMiddleware.js";
+
+
 
 const router = express.Router();
 
@@ -44,8 +47,6 @@ const router = express.Router();
  *         description: Datos incompletos o inválidos.
  */
 router.post("/", createPostController);
-
-
 /**
  * @swagger
  * /api/posts:
