@@ -33,7 +33,7 @@ const router = express.Router();
  *                 type: string
  *               content:
  *                 type: string
- *               imageUrl:
+ *               image:
  *                 type: string
  *               authorId:
  *                 type: integer
@@ -107,7 +107,7 @@ router.get("/:id", getPostByIdController);
  *                 type: string
  *               content:
  *                 type: string
- *               imageUrl:
+ *               image:
  *                 type: string
  *     responses:
  *       200:
