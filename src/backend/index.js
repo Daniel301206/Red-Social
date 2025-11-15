@@ -17,6 +17,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// 🔹 Sirve la carpeta uploads para que las imágenes sean accesibles
+app.use('/uploads', express.static('uploads'));
+
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.urlencoded({extended:true}));
 

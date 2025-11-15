@@ -1,13 +1,7 @@
 import express from "express";
-import {
-  createPostController,
-  getAllPostsController,
-  getPostByIdController,
-  deletePostController,
-  updatePostController
+import {createPostController,getAllPostsController,getPostByIdController,deletePostController,updatePostController
 } from "../controllers/postControllers.js";
 import { uploadImage } from "../middlewares/uploadMiddleware.js";
-
 
 
 const router = express.Router();
@@ -28,7 +22,7 @@ const router = express.Router();
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -38,6 +32,7 @@ const router = express.Router();
  *                 type: string
  *               image:
  *                 type: string
+ *                 format: binary
  *               authorId:
  *                 type: integer
  *     responses:
@@ -100,7 +95,7 @@ router.get("/:id", getPostByIdController);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -110,6 +105,7 @@ router.get("/:id", getPostByIdController);
  *                 type: string
  *               image:
  *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
  *         description: Publicación actualizada con éxito.
@@ -139,5 +135,8 @@ router.put("/:id", updatePostController);
  *         description:*
 */
 router.delete("/:id", deletePostController);
+
+router.post("/", uploadImage, createPostController);
+
 
 export default router;
