@@ -11,7 +11,7 @@ export const getPosts = async () => {
 
 // Crear una nueva publicación
 export const createPost = async (postFormData) => {
-  const res = await fetch(API_URL, {
+  const res = await fetch(API_URL,{
     method: "POST",
     body: postFormData,
   });
