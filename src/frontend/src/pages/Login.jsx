@@ -39,7 +39,7 @@ function Login() {
 
   
   return (
-    <div className="flex items-center bg-gray justify-center min-h-screen">
+    <div className="flex items-center  justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-x-6 bg-white rounded-xl shadow-md">
         <div className="flex justify-center items-center w-auto h-auto  m-15 p-5 ">
             <img src={usuario} className="w-40 h-40"/>

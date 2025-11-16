@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.16",
+    "lucide-react": "^0.553.0",
+    "multer": "^2.0.2",
     "passport-google-oauth20": "^2.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

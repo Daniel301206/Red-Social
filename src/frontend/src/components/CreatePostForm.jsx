@@ -7,9 +7,11 @@ import { createPost } from "../Services/postService";
 
 // 💡 Aceptamos 'currentUser' como una prop.
 const CreatePostForm = ({ onPostCreated, currentUser }) => {
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
 
   // Usamos el nombre del usuario loggeado o un valor por defecto.
   const userName = currentUser?.name || "Usuario";
@@ -22,8 +24,8 @@ const CreatePostForm = ({ onPostCreated, currentUser }) => {
     setIsSubmitting(true);
 
     const formData = new FormData();
+    formData.append("title", title); 
     formData.append("content", content);
-
     formData.append("authorId", currentUser?.id);
 
     if (imageFile) {
@@ -128,6 +130,14 @@ const CreatePostForm = ({ onPostCreated, currentUser }) => {
           </button>
         </div>
       )}
+
+      <div>
+        <input type="text" placeholder="Título de la publicación"
+          value={title} onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+
+      </div>
     </div>
   );
 };

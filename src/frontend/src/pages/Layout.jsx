@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
   const navigate = useNavigate(); // 👈 para cambiar de ventana
 
   return (
-    <div className="min-h-screen bg-gray-0 text-gray-200 flex flex-col">
+    <div className="min-h-screen bg-gray-0 text-gray-200">
       <header className="w-full sticky top-0 bg-gray-900 text-gray-200 shadow-lg z-20">
         {/* FILA SUPERIOR: Logo, Título y Acciones */}
         <div className="flex justify-between items-center px-6 py-4">
@@ -26,25 +26,24 @@ const Layout = ({ children }) => {
             <h1 className="text-2xl font-bold text-yellow-500">Chatter</h1>
           </div>
 
-          {/* Buscador */}
-          <div className="md:flex items-center bg-gray-800 rounded-full px-3 py-1">
-            <button className="hidden md:flex  text-black px-3 py-2 rounded">
-            <img src={lupa} alt="Buscar" className="w-6 h-6 mr-2" />
+          {/* Botón de búsqueda (solo lupa) */}
+          <div className="flex justify-end p-1">
+            <button className="text-black bg-gray-800 p-2 rounded-full hover:bg-gray-700">
+              <img src={lupa} alt="Buscar" className="w-6 h-6" />
             </button>
-            <input
-              type="text"
-              placeholder="Buscar..."
-              className="bg-gray-800 text-gray-100 placeholder-gray-00
-              outline-none"
-            />
           </div>
 
           {/* Imagen/Avatar derecho */}
 
           <button
             onClick={() => navigate("/chats")}
-            className="flex flex-col items-center hover:text-yellow-500 transition">
-            <img src={chat} alt="Usuario"className="w-10 h-10 rounded-full object-cover"/>
+            className="flex flex-col items-end hover:text-yellow-500 transition"
+          >
+            <img
+              src={chat}
+              alt="Usuario"
+              className="w-10 h-10 justify-end rounded-full object-cover"
+            />
           </button>
         </div>
 

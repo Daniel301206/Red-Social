@@ -90,7 +90,7 @@ const VentanaInicio = () => {
                                     </div>
                                 </div>
                                 {/* 💥 BOTÓN DE ELIMINAR (Solo si el usuario actual es el autor) */}
-                                {currentUser.id === post.authorId && (
+                                {currentUser.id === post.id && (
                                     <button
                                         onClick={() => handleDeletePost(post.id)}
                                         className="text-gray-500 hover:text-red-500 transition p-1 rounded-full"
