@@ -1,128 +1,125 @@
-import * as postServices from "../services/postServices.js";
+import prisma from "../prisma/schema.prisma";
 
-/**
- *  Crear una nueva publicación
- */
+// Crear post
 export const createPostController = async (req, res) => {
   try {
-    const { content, authorId } = req.body;
-    let imageUrl =req.file ? req.file.path : null;
+    const { title, content, authorId } = req.body;
+    const image = req.file ? req.file.path : null;
 
-    if (req.file) {
-      imageUrl = req.file.path; // ruta relativa guardada por Multer
-    }
-
-    // Guardar en la base de datos
     const newPost = await prisma.post.create({
       data: {
+        title,
         content,
-        authorId: parseInt(authorId),
-        image: imageUrl,
+        authorId: Number(authorId),
+        image,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            profilePicUrl: true,
+          },
+        },
       },
     });
 
-    // Formatear URL completa de la imagen para el frontend
-    const fullImageUrl = imageUrl ? `http://localhost:3000/${imageUrl}` : null;
-
-    // Respuesta final
-    res.status(201).json({
-      message: "Publicación creada con éxito 🎉",
-      post: {...newPost,image: fullImageUrl},
-    });
+    res.status(201).json(newPost);
   } catch (error) {
-    console.error("Error en createPostController:", error);
-
-    //  borrar el archivo subido si hubo error
-    // if (req.file) {
-    //   import fs from 'fs/promises';
-    //   await fs.unlink(req.file.path);
-    // }
-
-    res.status(500).json({
-      message: "Error al crear la publicación",
-      error: error.message,
-    });
+    console.error("Error creando post:", error);
+    res.status(500).json({ message: "Error al crear el post" });
   }
 };
 
-
-/**
- * 📋 Obtener todas las publicaciones
- */
+// Obtener todos los posts
 export const getAllPostsController = async (req, res) => {
   try {
-    const posts = await postServices.getAllPosts();
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(500).json({
-      message: "Error al obtener publicaciones",
-      error: error.message,
+    const posts = await prisma.post.findMany({
+      orderBy: { id: "desc" },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            profilePicUrl: true,
+          },
+        },
+      },
     });
+
+    res.json(posts);
+  } catch (error) {
+    console.error("Error obteniendo posts:", error);
+    res.status(500).json({ message: "Error al obtener las publicaciones" });
   }
 };
 
-/**
- * 🔍 Obtener una publicación por su ID
- */
+// Obtener post por id
 export const getPostByIdController = async (req, res) => {
   try {
-    const post = await postServices.getPostById(req.params.id);
-    res.status(200).json(post);
-  } catch (error) {
-    // Si el servicio lanza "Publicación no encontrada", se usa 404
-    res.status(404).json({
-      message: error.message || "Publicación no encontrada",
+    const post = await prisma.post.findUnique({
+      where: { id: Number(req.params.id) },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            profilePicUrl: true,
+          },
+        },
+      },
     });
+
+    if (!post) return res.status(404).json({ message: "Post no encontrado" });
+
+    res.json(post);
+  } catch (error) {
+    console.error("Error obteniendo post:", error);
+    res.status(500).json({ message: "Error al obtener la publicación" });
   }
 };
 
-// ----------------------------------------------------
-// ✍️ NUEVO: Actualizar una publicación por ID (PUT)
-// ----------------------------------------------------
+// Actualizar post
 export const updatePostController = async (req, res) => {
   try {
-    const postId = req.params.id;
-    const updateData = req.body;
+    const { title, content } = req.body;
+    const image = req.file ? req.file.path : undefined;
 
-    // Llamar al servicio para actualizar
-    const updatedPost = await postServices.updatePost(postId, updateData);
-
-    res.status(200).json({
-      message: "Publicación actualizada con éxito ✅",
-      post: updatedPost,
+    const updatedPost = await prisma.post.update({
+      where: { id: Number(req.params.id) },
+      data: {
+        title,
+        content,
+        ...(image && { image }),
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            profilePicUrl: true,
+          },
+        },
+      },
     });
+
+    res.json(updatedPost);
   } catch (error) {
-    // Manejo de errores de validación (datos faltantes) o no encontrado (ID inválido)
-    const statusCode =
-      error.message.includes("no se encontraron") ||
-      error.message.includes("no encontrada")
-        ? 404
-        : 400;
-
-    res.status(statusCode).json({
-      message: "Error al actualizar la publicación",
-      error: error.message,
-    });
+    console.error("Error actualizando post:", error);
+    res.status(500).json({ message: "Error al actualizar" });
   }
 };
 
-// ----------------------------------------------------
-// 🗑️ COMPLETO: Eliminar una publicación por ID (DELETE)
-// ----------------------------------------------------
+// Eliminar post
 export const deletePostController = async (req, res) => {
   try {
-    const postId = req.params.id;
-
-    // Llamar al servicio para eliminar
-    const result = await postServices.deletePost(postId);
-
-    res.status(200).json({
-      message: result.message,
+    await prisma.post.delete({
+      where: { id: Number(req.params.id) },
     });
+
+    res.json({ message: "Post eliminado" });
   } catch (error) {
-    // Si el servicio lanza "Publicación no encontrada", se usa 404
-    res.status(404).json({
-      message: error.message || "Publicación no encontrada",
-    });
+    console.error("Error eliminando post:", error);
+    res.status(500).json({ message: "Error al eliminar" });
   }
 };

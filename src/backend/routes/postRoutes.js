@@ -17,8 +17,11 @@ const router = express.Router();
  * @swagger
  * /api/posts:
  *   post:
- *     summary: Crea una nueva publicación
- *     tags: [Posts]
+ *     summary: Crear una publicación con imagen
+ *     tags:
+ *       - Posts
+ *     consumes:
+ *       - multipart/form-data
  *     requestBody:
  *       required: true
  *       content:
@@ -28,72 +31,74 @@ const router = express.Router();
  *             properties:
  *               title:
  *                 type: string
+ *                 example: "Mi primera publicación"
  *               content:
  *                 type: string
+ *                 example: "Esto es una prueba"
+ *               authorId:
+ *                 type: integer
+ *                 example: 1
  *               image:
  *                 type: string
  *                 format: binary
- *               authorId:
- *                 type: integer
  *     responses:
  *       201:
- *         description: Publicación creada con éxito.
- *       400:
- *         description: Datos incompletos o inválidos.
+ *         description: Publicación creada exitosamente
  */
-router.post("/", createPostController);
+
+router.post("/", uploadImage, createPostController);
+
+
 /**
  * @swagger
  * /api/posts:
  *   get:
- *     summary: Obtiene todas las publicaciones
+ *     summary: Obtener todas las publicaciones
  *     tags: [Posts]
  *     responses:
  *       200:
- *         description: Lista de publicaciones obtenida.
- *       500:
- *         description: Error del servidor.
+ *         description: Lista de publicaciones
  */
 
 router.get("/", getAllPostsController);
+
 
 /**
  * @swagger
  * /api/posts/{id}:
  *   get:
- *     summary: Obtiene una publicación por su ID
+ *     summary: Obtener una publicación por ID
  *     tags: [Posts]
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
  *         schema:
  *           type: integer
- *         required: true
- *         description: ID de la publicación.
+ *         description: ID de la publicación
  *     responses:
  *       200:
- *         description: Publicación encontrada.
+ *         description: Publicación encontrada
  *       404:
- *         description: Publicación no encontrada.
+ *         description: Publicación no encontrada
  */
-
 router.get("/:id", getPostByIdController);
+
 
 /**
  * @swagger
  * /api/posts/{id}:
  *   put:
- *     summary: Actualiza una publicación por su ID
+ *     summary: Actualizar una publicación (imagen opcional)
  *     tags: [Posts]
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
  *         schema:
  *           type: integer
- *         required: true
- *         description: ID de la publicación a actualizar.
  *     requestBody:
- *       required: true
+ *       required: false
  *       content:
  *         multipart/form-data:
  *           schema:
@@ -101,42 +106,41 @@ router.get("/:id", getPostByIdController);
  *             properties:
  *               title:
  *                 type: string
+ *                 example: "Título actualizado"
  *               content:
  *                 type: string
+ *                 example: "Contenido actualizado"
  *               image:
  *                 type: string
  *                 format: binary
  *     responses:
  *       200:
- *         description: Publicación actualizada con éxito.
+ *         description: Publicación actualizada
  *       404:
- *         description: Publicación no encontrada.
+ *         description: Publicación no encontrada
  */
 
 router.put("/:id", updatePostController);
+
 
 /**
  * @swagger
  * /api/posts/{id}:
  *   delete:
- *     summary: Elimina una publicación por su ID
+ *     summary: Eliminar una publicación
  *     tags: [Posts]
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
  *         schema:
  *           type: integer
- *         required: true
- *         description: ID de la publicación a eliminar.
  *     responses:
  *       200:
- *         description: Publicación eliminada con éxito.
+ *         description: Publicación eliminada
  *       404:
- *         description:*
-*/
+ *         description: Publicación no encontrada
+ */
+
 router.delete("/:id", deletePostController);
-
-router.post("/", uploadImage, createPostController);
-
-
 export default router;
