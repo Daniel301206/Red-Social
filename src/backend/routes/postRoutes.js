@@ -1,10 +1,9 @@
 import express from "express";
-import {createPostController,getAllPostsController,getPostByIdController,deletePostController,updatePostController
-} from "../controllers/postControllers.js";
-import { uploadImage } from "../middlewares/uploadMiddleware.js";
-
+import { postControllers } from "../controllers/postControllers.js";
+import { uploadMedia } from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
+const controller = postControllers();
 
 /**
  * @swagger
@@ -17,9 +16,8 @@ const router = express.Router();
  * @swagger
  * /api/posts:
  *   post:
- *     summary: Crear una publicación con imagen
- *     tags:
- *       - Posts
+ *     summary: Crear una publicación con imagen o video
+ *     tags: [Posts]
  *     consumes:
  *       - multipart/form-data
  *     requestBody:
@@ -31,23 +29,18 @@ const router = express.Router();
  *             properties:
  *               title:
  *                 type: string
- *                 example: "Mi primera publicación"
  *               content:
  *                 type: string
- *                 example: "Esto es una prueba"
  *               authorId:
  *                 type: integer
- *                 example: 1
- *               image:
+ *               mediaFile:         # ← corregido
  *                 type: string
  *                 format: binary
  *     responses:
  *       201:
  *         description: Publicación creada exitosamente
  */
-
-router.post("/", uploadImage, createPostController);
-
+router.post("/", uploadMedia, controller.createPost);
 
 /**
  * @swagger
@@ -57,11 +50,53 @@ router.post("/", uploadImage, createPostController);
  *     tags: [Posts]
  *     responses:
  *       200:
- *         description: Lista de publicaciones
+ *         description: Lista de todas las publicaciones
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   title:
+ *                     type: string
+ *                     example: "Mi primera publicación"
+ *                   content:
+ *                     type: string
+ *                     example: "Contenido de ejemplo"
+ *                   image:
+ *                     type: string
+ *                     nullable: true
+ *                     example: "uploads/imagen.jpg"
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2025-11-18T01:00:00Z"
+ *                   updatedAt:
+ *                     type: string
+ *                     format: date-time
+ *                     example: "2025-11-18T01:05:00Z"
+ *                   author:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       name:
+ *                         type: string
+ *                         example: "Daniel Rivera"
+ *                       email:
+ *                         type: string
+ *                         example: "daniel@example.com"
+ *       500:
+ *         description: Error interno del servidor
  */
 
-router.get("/", getAllPostsController);
 
+router.get("/", controller.getAllPosts);
 
 /**
  * @swagger
@@ -69,59 +104,17 @@ router.get("/", getAllPostsController);
  *   get:
  *     summary: Obtener una publicación por ID
  *     tags: [Posts]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID de la publicación
- *     responses:
- *       200:
- *         description: Publicación encontrada
- *       404:
- *         description: Publicación no encontrada
  */
-router.get("/:id", getPostByIdController);
-
+router.get("/:id", controller.getPostById);
 
 /**
  * @swagger
  * /api/posts/{id}:
  *   put:
- *     summary: Actualizar una publicación (imagen opcional)
+ *     summary: Actualizar una publicación (imagen/video opcional)
  *     tags: [Posts]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: false
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               title:
- *                 type: string
- *                 example: "Título actualizado"
- *               content:
- *                 type: string
- *                 example: "Contenido actualizado"
- *               image:
- *                 type: string
- *                 format: binary
- *     responses:
- *       200:
- *         description: Publicación actualizada
- *       404:
- *         description: Publicación no encontrada
  */
-
-router.put("/:id", updatePostController);
-
+router.put("/:id", uploadMedia, controller.updatePost);
 
 /**
  * @swagger
@@ -129,18 +122,7 @@ router.put("/:id", updatePostController);
  *   delete:
  *     summary: Eliminar una publicación
  *     tags: [Posts]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Publicación eliminada
- *       404:
- *         description: Publicación no encontrada
  */
+router.delete("/:id", controller.deletePost);
 
-router.delete("/:id", deletePostController);
 export default router;
