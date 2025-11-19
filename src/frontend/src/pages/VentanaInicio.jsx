@@ -55,7 +55,7 @@ const VentanaInicio = () => {
 
     return (
         <Layout>
-            <div className="p-6 max-w-2xl mx-auto">
+            <div className="w-full p-6 max-w-2xl mx-auto">
                 
                 {/* 💥 3. AGREGAMOS EL FORMULARIO DE CREACIÓN AQUÍ */}
                 <CreatePostForm onPostCreated={handlePostCreated} currentUser={currentUser} />

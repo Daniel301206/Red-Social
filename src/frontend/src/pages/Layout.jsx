@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import lupa from "../assets/lupa.png";
-import logoEmpresa from "../assets/logoEmpresa.png";
+import logoEmpresa from "../assets/logoEmpresa.png"
 import chat from "../assets/chat.png";
 import Home from "../assets/Home.png";
 import Video from "../assets/Video.png";
@@ -26,25 +26,27 @@ const Layout = ({ children }) => {
             <h1 className="text-2xl font-bold text-yellow-500">Chatter</h1>
           </div>
 
-          {/* Botón de búsqueda (solo lupa) */}
-          <div className="flex justify-end p-1">
-            <button className="text-black bg-gray-800 p-2 rounded-full hover:bg-gray-700">
+          {/* Lupa + Chat juntos a la derecha */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowSearch(true)}
+              className="text-black bg-gray-800 p-2 rounded-full hover:bg-gray-700 transition"
+            >
               <img src={lupa} alt="Buscar" className="w-6 h-6" />
             </button>
+
+            {/* Botón de chat */}
+            <button
+              onClick={() => navigate("/chats")}
+              className="flex flex-col items-end hover:text-yellow-500 transition"
+            >
+              <img
+                src={chat}
+                alt="Usuario"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            </button>
           </div>
-
-          {/* Imagen/Avatar derecho */}
-
-          <button
-            onClick={() => navigate("/chats")}
-            className="flex flex-col items-end hover:text-yellow-500 transition"
-          >
-            <img
-              src={chat}
-              alt="Usuario"
-              className="w-10 h-10 justify-end rounded-full object-cover"
-            />
-          </button>
         </div>
 
         {/* FILA INFERIOR: Barra de navegación con íconos */}
