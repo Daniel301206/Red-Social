@@ -17,9 +17,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename); 
 // __dirname ahora apunta a la carpeta 'backend' de tu proyecto
 
-// Carpeta de uploads
-const uploadsPath = path.join(__dirname, 'uploads');
-
 dotenv.config();
 
 const app = express();
@@ -27,19 +24,14 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
-
-// Sirve la carpeta 'uploads' desde el navegador
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-app.listen(3000, () => console.log('Servidor corriendo en puerto 3000'));
-// 🔹 Sirve la carpeta uploads para que las imágenes sean accesibles
+// Carpeta de uploads
+const uploadsPath = path.join(__dirname, 'uploads');
 app.use('/uploads', express.static(uploadsPath));
 
-
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use(express.urlencoded({extended:true}));
+
 
 app.get('/',(req, res) => {
     res.json({
@@ -47,11 +39,17 @@ app.get('/',(req, res) => {
     });
 });
 
+// Ruta base
+app.get("/", (req, res) => {
+  res.json({ message: "Api corriendo correctamente" });
+});
+
 //Rutas que deseo usar
 app.use("/api/users",userRoutes);
 app.use("/api/email", emailRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api/posts",postRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo y escuchando en el puerto ${PORT}`);

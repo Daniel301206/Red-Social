@@ -21,38 +21,38 @@ export const authControllers = {
     }
   },
 
-  
   //Login tradicional
   async login(req, res) {
     try {
       const { email, password } = req.body;
       const result = await authServices.login({ email, password });
 
-      res.status(200).json({
-        succes: true,
-        message: "Inicio de sesion exitoso",
+      return res.status(200).json({
+        success: true,
+        message: "Inicio de sesión exitoso",
         data: result,
       });
     } catch (error) {
-      if (error.message == "Email no encontrado") {
-        res.status(400).json({
-          succes: false,
+      if (error.message === "Email no encontrado") {
+        return res.status(400).json({
+          success: false,
           message: error.message,
         });
       }
-      if (error.message == "Contraseña incorrecta") {
-        res.status(401).json({
-          succes: false,
+
+      if (error.message === "Contraseña incorrecta") {
+        return res.status(401).json({
+          success: false,
           message: error.message,
         });
       }
-      res.status(500).json({
-        succes: false,
+
+      return res.status(500).json({
+        success: false,
         message: error.message,
       });
     }
   },
-
   //Google Callback
   async googleCallBack(req, res) {
     try {

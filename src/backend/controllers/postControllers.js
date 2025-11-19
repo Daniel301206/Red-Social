@@ -1,5 +1,7 @@
 import postServices from "../services/postServices.js";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 console.log("--- DEBUG postControllers ---");
 console.log("ruta import:", "../services/postServices.js");
 console.log("typeof postServices =", typeof postServices);
@@ -43,7 +45,7 @@ export const postControllers = () => ({
   // Obtener todos los posts
   async getAllPosts(req, res) {
     try {
-      const posts = await postServices().getAllPosts();
+      const posts = await postServices.getAllPosts();
       res.json(posts);
     } catch (error) {
       console.error("Error obteniendo posts:", error);
